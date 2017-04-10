@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use app\models\Teacher;
 use yii\web\Controller;
 
 
@@ -8,12 +9,32 @@ class TeachersController extends Controller
 {
     public function actionIndex()
     {
-       return $this->render('index');
+        $qery = Teacher::find();
+        $dataProvider = new \yii\data\ActiveDataProvider([
+            'query' => $qery
+        ]);
+            return $this->render('index',['provider' => $dataProvider] );
     }
 
     public function actionCreate()
     {
+        $model = new Teacher([
+            'scenario' => 'add'
+        ]);
 
+        if (\Yii::$app->request->isPost) {
+            $model->load(\Yii::$app->request->post());
+//            $model->image = UploadedFile::getInstance($model, 'image'); // картинки
+//            $model->images = UploadedFile::getInstances($model, 'images');
+
+            if ($model->run()) {
+                return $this->redirect(['teachers/index']);
+            }
+        }
+
+        return $this->render('form', [
+            'model' => $model
+        ]);
     }
 
     public function actionEdit()
