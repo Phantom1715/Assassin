@@ -5,7 +5,7 @@
 $this->title = 'My Yii Application';
 ?>
 
-<h1>Products list <a class="btn btn-primary pull-right" href="<?= \yii\helpers\Url::to(['Teachers/create'])?>">Add Teacher</a></h1>
+<h1>Products list <a class="btn btn-primary pull-right" href="<?= \yii\helpers\Url::to(['teachers/create'])?>">Add Teacher</a></h1>
 
 <?= \yii\grid\GridView::widget([
     'dataProvider' => $provider,

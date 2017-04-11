@@ -3,7 +3,7 @@ namespace app\controllers;
 
 use app\models\Teacher;
 use yii\web\Controller;
-
+use app\models\form\TeacherForm;
 
 class TeachersController extends Controller
 {
@@ -18,7 +18,7 @@ class TeachersController extends Controller
 
     public function actionCreate()
     {
-        $model = new Teacher([
+        $model = new TeacherForm([
             'scenario' => 'add'
         ]);
 
