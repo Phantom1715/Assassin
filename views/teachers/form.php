@@ -33,6 +33,8 @@
 
     <?= $form->field($model, 'birthday')?>
 
+    <?= $form->field($model, 'employment')?>
+
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Save</button>
     </div>

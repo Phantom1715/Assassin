@@ -10,14 +10,18 @@ class TeacherForm extends \yii\base\Model {
     public $name_f;
     public $name_ot;
     public $birthday;
+    public $employment;
 //    public $image;
 //    public $images;
 
     public function rules() {
         return [
-            ['id', 'integer'],
-            [['name', 'name_f', 'name_ot','birthday'], 'required'],
-            ['birthday', 'date']
+            ['id', 'integer', 'on' => ['edit']],
+
+            [['name', 'name_f', 'name_ot','birthday'], 'required', 'on' => ['add', 'edit']],
+
+            ['birthday', 'date', 'format' => 'php:Y-m-d', 'on' => ['add', 'edit']],
+            ['employment', 'date', 'format' => 'php:Y-m-d', 'on' => ['add', 'edit']]
 //            ['image', 'image', 'mimeTypes' => 'image/png, image/jpg, image/jpeg', 'maxSize' => 10050000, 'maxFiles' => 1],
 //            ['images', 'image', 'mimeTypes' => 'image/png, image/jpg, image/jpeg', 'maxSize' => 100500000, 'maxFiles' => 10]
         ];
@@ -28,7 +32,8 @@ class TeacherForm extends \yii\base\Model {
             'name_f' => 'FullName',
             'name' => 'Name',
             'name_ot' => 'Patronymic',
-            'birthday' => 'Birthday'
+            'birthday' => 'Birthday',
+            'employment' => 'Employment'
         ];
     }
 
@@ -41,6 +46,7 @@ class TeacherForm extends \yii\base\Model {
                     $teacher->name_ot = $this->name_ot;
                     $teacher->name_f = $this->name_f;
                     $teacher->birthday = $this->birthday;
+                    $teacher->employment = $this->employment;
 
 //                    if ($this->image) {
 //                        $product->uploadImage($this->image);
@@ -59,6 +65,7 @@ class TeacherForm extends \yii\base\Model {
                     $teacher->name_ot = $this->name_ot;
                     $teacher->name_f = $this->name_f;
                     $teacher->birthday = $this->birthday;
+                    $teacher->employment = $this->employment;
 
 //                    if ($this->image) {
 //                        $teacher->uploadImage($this->image);
