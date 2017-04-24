@@ -38,6 +38,7 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Teachers', 'url' => ['/teachers/index']],
             ['label' => 'Subject', 'url' => ['/subject/index']],
+            ['label' => 'Class', 'url' => ['/class/index']],
         ],
     ]);
 
