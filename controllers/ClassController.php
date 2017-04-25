@@ -2,6 +2,8 @@
 namespace app\controllers;
 
 use app\models\Clas;
+use app\models\Teacher;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use app\models\form\ClassForm;
 
@@ -19,7 +21,8 @@ class ClassController extends Controller
     public function actionCreate()
     {
         $model = new ClassForm([
-            'scenario' => 'add'
+            'scenario' => 'add',
+            'chislo_uch' => 0
         ]);
 
         if (\Yii::$app->request->isPost) {
@@ -31,7 +34,14 @@ class ClassController extends Controller
         }
 
         return $this->render('form', [
-            'model' => $model
+            'model' => $model,
+            'teachersOpts' => ArrayHelper::map(
+                Teacher::find()
+                    ->orderBy(['name_f' => SORT_ASC, 'name' => SORT_ASC, 'name_ot' => SORT_ASC])
+                    ->all(),
+                'id',
+                'fullName'
+            )
         ]);
     }
 
@@ -44,6 +54,7 @@ class ClassController extends Controller
             $model->id = $class->id;
             $model->name = $class->name;
             $model->id_uchitel = $class->id_uchitel;
+            $model->chislo_uch = $class->chislo_uch;
         }
 
         if (\Yii::$app->request->isPost) {
@@ -57,7 +68,14 @@ class ClassController extends Controller
         }
 
         return $this->render('form', [
-            'model' => $model
+            'model' => $model,
+            'teachersOpts' => ArrayHelper::map(
+                Teacher::find()
+                    ->orderBy(['name_f' => SORT_ASC, 'name' => SORT_ASC, 'name_ot' => SORT_ASC])
+                    ->all(),
+                'id',
+                'fullName'
+            )
         ]);
     }
 

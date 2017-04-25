@@ -17,7 +17,9 @@
 
     <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'id_uchitel') ?>
+    <?= $form->field($model, 'id_uchitel')->dropDownList($teachersOpts, ['prompt' => 'Выберите учителя...']) ?>
+
+    <?= $form->field($model, 'chislo_uch')->staticControl(); ?>
     
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Save</button>

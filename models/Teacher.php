@@ -24,5 +24,9 @@ class Teacher extends \yii\db\ActiveRecord {
             'employment' => 'Employment'
         ];
     }
+
+    public function getFullName() {
+        return "{$this->name_f} {$this->name} {$this->name_ot}";
+    }
       
 }
