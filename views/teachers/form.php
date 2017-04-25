@@ -17,23 +17,13 @@
 
     <?= $form->field($model, 'name_f') ?>
 
-<!--    --><?//= $form->field($model, 'image')->fileInput(['class' => 'form-control', 'accept' => 'image/png, image/jpg, image/jpeg']) ?>
-<!---->
-<!--    --><?php //if ($model->image) { ?>
-<!--        <div class="form-group">-->
-<!--            <img src="--><?//= $model->image ?><!--" />-->
-<!--        </div>-->
-<!--    --><?php //} ?>
-<!---->
-<!--    --><?//= $form->field($model, 'images')->fileInput(['class' => 'form-control', 'accept' => 'image/png, image/jpg, image/jpeg', 'multiple' => true, 'name' => 'ProductForm[images][]']) ?>
-
     <?= $form->field($model, 'name') ?>
 
     <?= $form->field($model, 'name_ot') ?>
 
-    <?= $form->field($model, 'birthday')?>
+    <?= $form->field($model, 'birthday')->widget(\kartik\widgets\DatePicker::className(),['language'=>'ru','pluginOptions'=>['format'=>'yyyy-mm-dd']])?>
 
-    <?= $form->field($model, 'employment')?>
+    <?= $form->field($model, 'employment')->widget(\kartik\widgets\DatePicker::className(),['language'=>'ru','pluginOptions'=>['format'=>'yyyy-mm-dd']])?>
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Save</button>
