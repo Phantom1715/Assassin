@@ -23,7 +23,7 @@
 
     <?= $form->field($model, 'birth')->widget(\kartik\widgets\DatePicker::className(),['language'=>'ru','pluginOptions'=>['format'=>'yyyy-mm-dd']])?>
 
-    <?= $form->field($model, 'id_class')?>
+    <?= $form->field($model, 'id_class')->dropDownList($classOpts,['prompt' => 'Выберите класс...'])?>
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Save</button>

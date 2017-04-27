@@ -44,6 +44,7 @@ class PupilsForm extends \yii\base\Model {
                     $pupils->id_class = $this->id_class;
                     
                     if ($pupils->save()) {
+                        Clas::findOne($id_class);
                         return true;
                     }
                 case 'edit' :

@@ -3,6 +3,8 @@ namespace app\controllers;
 
 use app\models\Pupils;
 use yii\web\Controller;
+use yii\helpers\ArrayHelper;
+use app\models\Clas;
 use app\models\form\PupilsForm;
 
 class PupilsController extends Controller
@@ -31,7 +33,12 @@ class PupilsController extends Controller
         }
 
         return $this->render('form', [
-            'model' => $model
+            'model' => $model,
+            'classOpts' => ArrayHelper::map(
+                Clas::find()->all(),
+                'id',
+                'name'
+            )
         ]);
     }
 
