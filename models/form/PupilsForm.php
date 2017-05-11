@@ -3,6 +3,8 @@
 namespace app\models\form;
 
 use app\models\Pupils;
+use app\models\Clas;
+use yii\base\Exception;
 
 class PupilsForm extends \yii\base\Model {
     public $id;
@@ -36,26 +38,70 @@ class PupilsForm extends \yii\base\Model {
         if ($this->validate()) {
             switch ($this->scenario) {
                 case 'add' :
-                    $pupils= new Pupils();
-                    $pupils->name = $this->name;
-                    $pupils->name_ot = $this->name_ot;
-                    $pupils->name_f = $this->name_f;
-                    $pupils->birth = $this->birth;
-                    $pupils->id_class = $this->id_class;
-                    
-                    if ($pupils->save()) {
-                        Clas::findOne($id_class);
-                        return true;
-                    }
-                case 'edit' :
-                    $pupils = Pupils::findOne($this->id);
-                    $pupils->name = $this->name;
-                    $pupils->name_ot = $this->name_ot;
-                    $pupils->name_f = $this->name_f;
-                    $pupils->birth = $this->birth;
-                    $pupils->id_class = $this->id_class;
+                    $transaction = \Yii::$app->db->beginTransaction();
 
-                    return $pupils->save();
+                    try {
+                        $pupils= new Pupils();
+                        $pupils->name = $this->name;
+                        $pupils->name_ot = $this->name_ot;
+                        $pupils->name_f = $this->name_f;
+                        $pupils->birth = $this->birth;
+                        $pupils->id_class = $this->id_class;
+
+                        if (!$pupils->save()) {
+                            throw new Exception();
+                        }
+
+                        $class = Clas::findOne($this->id_class);
+                        $class->chislo_uch += 1;
+                        if (!$class->save()) {
+                            throw new Exception();
+                        }
+
+                        $transaction->commit();
+                        return true;
+                    } catch(Exception $e) {
+                        $transaction->rollBack();
+                    }
+
+                case 'edit' :
+                    $transaction = \Yii::$app->db->beginTransaction();
+
+                    try {
+                        $pupils = Pupils::findOne($this->id);
+                        
+                        if($pupils->id_class != $this->id_class )
+                        {
+                            $class = Clas::findOne($pupils->id_class);
+
+                            $class->chislo_uch -= 1;
+                            if (!$class->save()) {
+                                throw new Exception();
+                            }
+
+                            //Удаление учеников в предыдущем и добавление в текущем.
+                            $class = Clas::findOne($this->id_class);
+                            $class->chislo_uch += 1;
+                            if (!$class->save()) {
+                                throw new Exception();
+                            }
+                        }
+
+                        $pupils->name = $this->name;
+                        $pupils->name_ot = $this->name_ot;
+                        $pupils->name_f = $this->name_f;
+                        $pupils->birth = $this->birth;
+                        $pupils->id_class = $this->id_class;
+
+                        if (!$pupils->save()) {
+                            throw new Exception();
+                        }
+
+                        $transaction->commit();
+                        return true;
+                    } catch (Exception $e) {
+                        $transaction->rollBack();
+                    }
             }
         }
 

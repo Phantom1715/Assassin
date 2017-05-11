@@ -2,6 +2,7 @@
 namespace app\controllers;
 
 use app\models\Pupils;
+use yii\base\Exception;
 use yii\web\Controller;
 use yii\helpers\ArrayHelper;
 use app\models\Clas;
@@ -45,15 +46,9 @@ class PupilsController extends Controller
     public function actionUpdate($id)
     {
         $model = new PupilsForm([
-            'scenario' => 'edit'
+            'scenario' => 'edit',
+            'id' => $id
         ]);
-        if($pupils = Pupils::findOne($id)){
-            $pupils->name = $this->name;
-            $pupils->name_ot = $this->name_ot;
-            $pupils->name_f = $this->name_f;
-            $pupils->birth = $this->birth;
-            $pupils->id_class = $this->id_class;
-        }
 
         if (\Yii::$app->request->isPost) {
             $model->load(\Yii::$app->request->post());
@@ -63,14 +58,46 @@ class PupilsController extends Controller
             }
         }
 
+        if($pupils = Pupils::findOne($id)){
+            $model->name = $pupils->name;
+            $model->name_ot = $pupils->name_ot;
+            $model->name_f = $pupils->name_f;
+            $model->birth = $pupils->birth;
+            $model->id_class = $pupils->id_class;
+        }
+
         return $this->render('form', [
-            'model' => $model
+            'model' => $model,
+            'classOpts' => ArrayHelper::map(
+            Clas::find()->all(),
+        'id',
+        'name'
+            )
+
         ]);
     }
 
     public function actionDelete($id)
     {
-        Pupils::deleteAll(['id' => $id]);
+
+        $transaction = \Yii::$app->db->beginTransaction();
+
+        try {
+            $pupils = Pupils::findOne($id);
+            if (!$pupils->delete()) {
+                throw new Exception();
+            };
+
+            $class = Clas::findOne($pupils->id_class);
+            $class->chislo_uch -= 1;
+            if (!$class->save()) {
+                throw new Exception();
+            }
+
+            $transaction->commit();
+        } catch(Exception $e) {
+            $transaction->rollBack();
+        }
 
         return $this->redirect(['pupils/index']);
     }
