@@ -15,8 +15,11 @@ class SheduleForm extends \yii\base\Model {
     public function rules() {
         return [
 
-            [['id_item','id_class','id_teacher','day_nidely','number_urok'],'required'],
+            [['id_item','id_class','id_teacher','day_nidely','number_urok'],'required','on' => ['add', 'edit']],
+            
             [['number_urok'],'integer', 'min' => 1 , 'max' => 8],
+            
+            ['day_nidely', 'date', 'format' => 'php:Y-m-d', 'on' => ['add', 'edit']],
         ];
     }
 
@@ -41,15 +44,18 @@ class SheduleForm extends \yii\base\Model {
                     $sched->day_nidely = $this->day_nidely;
                     $sched->number_urok = $this->number_urok;
 
-                    if ($class->save()) {
+                    if ($sched->save()) {
                         return true;
                     }
                 case 'edit' :
-                    $class = Clas::findOne($this->id);
-                    $class->name = $this->name;
-                    $class->id_uchitel = $this->id_uchitel;
+                    $sched = Clas::findOne($this->id);
+                    $sched->id_item = $this->id_item;
+                    $sched->id_class = $this->id_class;
+                    $sched->id_teacher = $this->id_teacher;
+                    $sched->day_nidely = $this->day_nidely;
+                    $sched->number_urok = $this->number_urok;
 
-                    return $class->save();
+                    return $sched->save();
             }
         }
 
