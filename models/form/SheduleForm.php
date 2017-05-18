@@ -16,10 +16,6 @@ class SheduleForm extends \yii\base\Model {
         return [
 
             [['id_item','id_class','id_teacher','day_nidely','number_urok'],'required','on' => ['add', 'edit']],
-            
-            [['number_urok'],'integer', 'min' => 1 , 'max' => 8],
-            
-            ['day_nidely', 'date', 'format' => 'php:Y-m-d', 'on' => ['add', 'edit']],
         ];
     }
 

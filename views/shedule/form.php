@@ -21,9 +21,9 @@
 
     <?= $form->field($model, 'id_item')->dropDownList($itemOpts,['prompt' => 'Выберите придмет...']) ?>
 
-    <?= $form->field($model, 'day_nidely')->widget(\kartik\widgets\DatePicker::className(),['language'=>'ru','pluginOptions'=>['format'=>'yyyy-mm-dd']])?>
+    <?= $form->field($model, 'day_nidely')->dropDownList($dayOpts,['prompt' => 'Веберите день недели...'])?>
 
-    <?= $form->field($model, 'number_urok')?>
+    <?= $form->field($model, 'number_urok')->dropDownList($lessonsOpts,['prompt' => 'Выберите номер урока...'])?>
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Save</button>

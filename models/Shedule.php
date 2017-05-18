@@ -1,6 +1,9 @@
 <?php
 
 namespace app\models;
+namespace app\models\Subject;
+
+use app\models\Subject;
 
 class Shedule extends \yii\db\ActiveRecord {
     public static function tableName() {
@@ -10,7 +13,6 @@ class Shedule extends \yii\db\ActiveRecord {
     public function  rules() {
         return [
             [['id_item','id_class','id_teacher','day_nidely','number_urok'],'required'],
-            [['number_urok'],'integer', 'min' => 1 , 'max' => 8],
         ];
     }
 
@@ -23,5 +25,8 @@ class Shedule extends \yii\db\ActiveRecord {
             'number_urok' => 'Lesson'
         ];
     }
+     public function getItem($id){
+        $item = Subject::findOne($id);
+     }
 
 }
