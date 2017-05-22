@@ -11,9 +11,14 @@ $this->title = 'My Yii Application';
     'dataProvider' => $provider,
     'columns' => [
         'id',
-        'id_item',
-        'id_class',
-        'id_teacher',
+        ['attribute' => 'id_item','value' => 'item.name'],
+        ['attribute' => 'id_class','value' => 'class.name'],
+        [
+            'attribute' => 'id_teacher',
+            'value' => function($model) {
+                return "{$model->teacher->name_f} {$model->teacher->name} {$model->teacher->name_ot}";
+            }
+        ],
         'day_nidely',
         'number_urok',
         [

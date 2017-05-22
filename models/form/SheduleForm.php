@@ -39,6 +39,7 @@ class SheduleForm extends \yii\base\Model {
                     $sched->id_teacher = $this->id_teacher;
                     $sched->day_nidely = $this->day_nidely;
                     $sched->number_urok = $this->number_urok;
+                    
 
                     if ($sched->save()) {
                         return true;

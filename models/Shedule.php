@@ -1,9 +1,12 @@
 <?php
 
 namespace app\models;
-namespace app\models\Subject;
 
+use app\models\Teacher;
+use app\models\Clas;
 use app\models\Subject;
+use yii\helpers\ArrayHelper;
+
 
 class Shedule extends \yii\db\ActiveRecord {
     public static function tableName() {
@@ -25,8 +28,13 @@ class Shedule extends \yii\db\ActiveRecord {
             'number_urok' => 'Lesson'
         ];
     }
-     public function getItem($id){
-        $item = Subject::findOne($id);
+     public function getItem() {
+         return $this->hasOne(Subject::className(), ['id' => 'id_item']);
      }
-
+    public function getClass(){
+        return $this->hasOne(Clas::className(),['id' => 'id_class']);
+    }
+    public function getTeacher(){
+        return $this->hasOne(Teacher::className(),['id' => 'id_teacher']);
+    }
 }

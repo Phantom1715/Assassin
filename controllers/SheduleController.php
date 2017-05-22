@@ -38,7 +38,7 @@ class SheduleController extends Controller
             'model' => $model,
             'classOpts' => ArrayHelper::map(Clas::find()->all(),'id','name'),
             'itemOpts' => ArrayHelper::map(Subject::find()->all(),'id','name'),
-            'dayOpts' => ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'],
+            'dayOpts' => [1 => 'Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'],
             'lessonsOpts' => ['0','1','2','3','4','5','6','7','8'],
             'teacherOpts' => ArrayHelper::map(Teacher::find()->orderBy(['name_f' => SORT_ASC, 'name' => SORT_ASC, 'name_ot' => SORT_ASC])->all(),'id','fullname'),
         ]);
