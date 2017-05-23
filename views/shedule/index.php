@@ -19,7 +19,14 @@ $this->title = 'My Yii Application';
                 return "{$model->teacher->name_f} {$model->teacher->name} {$model->teacher->name_ot}";
             }
         ],
-        'day_nidely',
+        [
+            'attribute' => 'day_nidely' ,
+            'value' => function($model) {
+                $arr = [1 => 'Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
+                return $arr[$model->day_nidely];
+            },
+
+        ],
         'number_urok',
         [
             'class' => 'yii\grid\ActionColumn',
