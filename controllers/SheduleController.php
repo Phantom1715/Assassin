@@ -8,6 +8,7 @@ use app\models\Subject;
 use app\models\form\SheduleForm;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
+use yii\web\Response;
 
 
 class SheduleController extends Controller
@@ -19,6 +20,21 @@ class SheduleController extends Controller
             'query' => $qery
         ]);
         return $this->render('index',['provider' => $dataProvider] );
+    }
+
+    public function actionAjaxOptions($select) {
+        if (!\Yii::$app->request->isAjax) {
+            return $this->goBack();
+        }
+
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+
+        switch ($select) {
+            case 'items' :
+                if (!\Yii::$app->request->get('teacherId')) {
+                    return [];
+                }
+        }
     }
 
     public function actionCreate()
@@ -37,10 +53,14 @@ class SheduleController extends Controller
         return $this->render('form', [
             'model' => $model,
             'classOpts' => ArrayHelper::map(Clas::find()->all(),'id','name'),
-            'itemOpts' => ArrayHelper::map(Subject::find()->all(),'id','name'),
-            'dayOpts' => [1 => 'Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'],
-            'lessonsOpts' => ['0','1','2','3','4','5','6','7','8'],
-            'teacherOpts' => ArrayHelper::map(Teacher::find()->orderBy(['name_f' => SORT_ASC, 'name' => SORT_ASC, 'name_ot' => SORT_ASC])->all(),'id','fullname'),
+            'itemOpts' => [''],
+            'dayOpts' => [''],
+            'lessonsOpts' => [''],
+            'teacherOpts' => [''],
+//            'itemOpts' => ArrayHelper::map(Subject::find()->all(),'id','name'),
+//            'dayOpts' => [1 => 'Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'],
+//            'lessonsOpts' => ['0','1','2','3','4','5','6','7','8'],
+//            'teacherOpts' => ArrayHelper::map(Teacher::find()->orderBy(['name_f' => SORT_ASC, 'name' => SORT_ASC, 'name_ot' => SORT_ASC])->all(),'id','fullname'),
         ]);
     }
 

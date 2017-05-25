@@ -9,6 +9,7 @@
 
 <div class="col-lg-6 col-lg-offset-3">
     <?php $form = \yii\bootstrap\ActiveForm::begin([
+        'id' => 'shedule-form',
         'options' => [
             'enctype' => 'multipart/form-data'
         ],
@@ -30,4 +31,8 @@
     </div>
 
     <?php \yii\bootstrap\ActiveForm::end() ?>
+
+    <script>
+        var sheduleAjaxUrl = '<?= \yii\helpers\Url::to(['shedule/ajax-options']) ?>';
+    </script>
 </div>

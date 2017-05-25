@@ -16,6 +16,8 @@ class Shedule extends \yii\db\ActiveRecord {
     public function  rules() {
         return [
             [['id_item','id_class','id_teacher','day_nidely','number_urok'],'required'],
+            [['id_item','id_class','id_teacher'],'string','min'=>2],
+            [['day_nidely','number_urok'],'integer','min'=>0],
         ];
     }
 
